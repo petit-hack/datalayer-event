@@ -2,8 +2,9 @@ function longVisit() {
   let timeVisit = $("body").attr("ph_long-visit-duration");
   setTimeout(() => {
     window.dataLayer.push({
-      event: "longViste"
+      event: "longVisite"
     });
+    console.log("je me suis active");
   }, timeVisit);
 }
 
@@ -27,13 +28,13 @@ function pageView() {
 
 function clickName(linkName) {
   window.dataLayer.push({
-    event: "interaction",
+    event: "interaction_button",
     nom_clic: linkName
   });
 }
 function clickInput(inputname, formposition) {
   window.dataLayer.push({
-    event: "Interaction",
+    event: "interaction_form",
     name: inputname,
     position: formposition
   });
