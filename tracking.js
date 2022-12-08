@@ -6,10 +6,10 @@ function longVisit() {
   }, 180000);
 }
 
-/* Appliquer l'attribut ph-page-cat sur le body pour pouvoir appliquer une catégorie de page */
+/*Appliquer l'attribut ph_page-cat sur le body pour pouvoir appliquer une catégorie de page */
 function pageView() {
   let pageTitle = document.title;
-  let pageCat = $("body").attr("ph-page-cat");
+  let pageCat = $("body").attr("ph_page-cat");
   if (pageCat !== undefined) {
     window.dataLayer.push({
       event: "page_view",
@@ -83,8 +83,7 @@ var observer = new IntersectionObserver(
   function (entries) {
     if (entries[0].isIntersecting === true)
       window.dataLayer.push({
-        event: "view_form",
-        position: okgoogle
+        event: "view_form"
       });
   },
   { threshold: [0] }
