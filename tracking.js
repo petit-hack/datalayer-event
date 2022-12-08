@@ -1,5 +1,5 @@
 function longVisit() {
-  let timeVisit = $('[ph_long-visit-duration]').attr('ph_long-visit-duration');
+  let timeVisit = $("body").attr("ph_long-visit-duration");
   setTimeout(() => {
     window.dataLayer.push({
       event: "longViste"
@@ -31,28 +31,20 @@ function clickName(linkName) {
     nom_clic: linkName
   });
 }
-function clickInput(inputname) {
+function clickInput(inputname, formposition) {
   window.dataLayer.push({
-    event: "formInteraction",
-    nom_clic: inputname
+    event: "Interaction",
+    name: inputname,
+    position: formposition
   });
 }
 
-function submitForm() {
-  let formposition = $(this).attr("ph_form");
-  let formName = $(this).attr("name");
-  if (formposition !== undefined) {
-    window.dataLayer.push({
-      event: "subscribe_newsletter",
-      position: formposition,
-      name: formName
-    });
-  } else {
-    window.dataLayer.push({
-      event: "subscribe_newsletter",
-      name: formName
-    });
-  }
+function submitForm(formposition, formName) {
+  window.dataLayer.push({
+    event: "submit_form",
+    position: formposition,
+    name: formName
+  });
 }
 
 //Page Load//
@@ -66,7 +58,9 @@ en utilisant la valeur de l'attribut comme paramètre de position.
 Bien pensé donc à ajouter l'attribut sinon position n'aura pas de valeur. 
 COMPTABILISE QUAND MËME UNE SOUMISSION SI L'AATRIBUT NEXISTE PAS MAIS NE FAIT PAS REMONTER LA POSITION */
 $("form").submit(function () {
-  submitForm();
+  let formposition = $(this).attr("ph_form");
+  let formName = $(this).attr("data-name");
+  submitForm(formposition, formName);
 });
 /* Lorsque l'on clic sur un lien/button, capture la valeur de l'attribut "ph_link-name"
 (à apposer sur le bouton) du bouton et déclenche l'évènement "interact"
@@ -92,7 +86,8 @@ var observer = new IntersectionObserver(
 observer.observe(document.querySelector("[ph_form]"));
 
 /* Suivi interaction sur les formulaires - attention de ne le déclencher qu'une fois par page dans GTM*/
-$("[ph_form] input:first-o").on("click", function () {
-  let inputname = $(this).closest("form").attr("name");
-  clickInput(inputname);
+$("[ph_form] input:first-of-type").on("click", function () {
+  let inputname = $(this).closest("form").attr("data-name");
+  let formposition = $(this).closest("form").attr("ph_form");
+  clickInput(inputname, formposition);
 });
