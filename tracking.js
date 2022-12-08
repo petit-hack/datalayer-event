@@ -1,9 +1,10 @@
 function longVisit() {
+  let timeVisit = $('[ph_long-visit-duration]').attr('ph_long-visit-duration');
   setTimeout(() => {
     window.dataLayer.push({
       event: "longViste"
     });
-  }, 180000);
+  }, timeVisit);
 }
 
 /*Appliquer l'attribut ph_page-cat sur le body pour pouvoir appliquer une catégorie de page */
