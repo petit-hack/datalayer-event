@@ -77,14 +77,21 @@ $("a").on("click", function () {
 Attention de ne le déclencher qu'une fois par page dans le GTM */
 var observer = new IntersectionObserver(
   function (entries) {
-    if (entries[0].isIntersecting === true)
-      window.dataLayer.push({
-        event: "view_form"
-      });
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        window.dataLayer.push({ event: "view_form" });
+        observer.unobserve(entry.target); // optionnel, pour ne déclencher l'événement qu'une seule fois par formulaire
+      }
+    });
   },
   { threshold: [0] }
 );
-observer.observe(document.querySelector("[ph_form]"));
+
+// Observer tous les éléments avec l'attribut [ph_form]
+document.querySelectorAll("[ph_form]").forEach(form => {
+  observer.observe(form);
+});
+
 
 /* Suivi interaction sur les formulaires - attention de ne le déclencher qu'une fois par page dans GTM*/
 $("[ph_form] input:first-of-type").on("click", function () {
