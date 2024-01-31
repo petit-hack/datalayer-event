@@ -82,15 +82,17 @@ var observer = new IntersectionObserver(
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         try {
-          let formName = entry.target.getAttribute("ph_form");
-          if (formName) {
+          let formPosition = entry.target.getAttribute("ph_form"); // Utilisation de 'ph_form' pour la position
+          let formName = entry.target.getAttribute("data-name"); // Utilisation de 'data-name' pour le nom
+          if (formPosition && formName) {
             window.dataLayer.push({
               event: "view_form",
-              formName: formName
+              position: formPosition, // Changé en 'position'
+              name: formName // Changé en 'name'
             });
             observer.unobserve(entry.target); // Une seule fois par formulaire
           } else {
-            console.warn("Form without 'data-name' attribute observed");
+            console.warn("Form without required attributes observed");
           }
         } catch (error) {
           console.error("Error in observer callback:", error);
